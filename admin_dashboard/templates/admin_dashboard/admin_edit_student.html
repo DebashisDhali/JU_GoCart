@@ -1,0 +1,90 @@
+{% extends 'admin_dashboard/admin_base.html' %}
+{% block title %}Edit Student{% endblock %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+  <div class="card p-4 shadow-sm mt-4" style="width: 100%; max-width: 800px;">
+    <h2 class="mb-4 text-center">Edit Student</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row">
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">First Name</label>
+          <input type="text" name="first_name" class="form-control" value="{{ student.first_name }}" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Last Name</label>
+          <input type="text" name="last_name" class="form-control" value="{{ student.last_name }}" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" value="{{ student.username }}" readonly>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" name="email" class="form-control" value="{{ student.email }}" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Phone</label>
+          <input type="text" name="phone" class="form-control" value="{{ student.phone }}" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Gender</label>
+          <select name="gender" class="form-control">
+            <option value="">-- Select Gender --</option>
+            <option value="male" {% if student.gender == 'male' %}selected{% endif %}>Male</option>
+            <option value="female" {% if student.gender == 'female' %}selected{% endif %}>Female</option>
+            <option value="other" {% if student.gender == 'other' %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Date of Birth</label>
+          <input type="date" name="dob" class="form-control" value="{{ student.dob|date:'Y-m-d' }}">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Nationality</label>
+          <input type="text" name="nationality" class="form-control" value="{{ student.nationality }}">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Home District</label>
+          <input type="text" name="home_district" class="form-control" value="{{ student.home_district }}">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Postal Code</label>
+          <input type="text" name="postal_code" class="form-control" value="{{ student.postal_code }}">
+        </div>
+
+        <div class="col-12 mb-3">
+          <label class="form-label">Present Address</label>
+          <textarea name="present_address" class="form-control">{{ student.present_address }}</textarea>
+        </div>
+
+        <div class="col-12 mb-3">
+          <label class="form-label">Current Profile Picture</label><br>
+          {% if student.profile_picture %}
+            <img src="{{ student.profile_picture.url }}" alt="Profile" height="80" class="rounded mb-2"><br>
+          {% else %}
+            <em>No picture uploaded.</em><br>
+          {% endif %}
+          <label class="form-label mt-2">Upload New Picture</label>
+          <input type="file" name="profile_picture" class="form-control">
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Update Student</button>
+        <a href="{% url 'admin_student_list' %}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,189 @@
+<!-- admin_dashboard/templates/admin_dashboard/admin_base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Admin Dashboard{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #caf7ff;
+        }
+
+        .sidebar {
+            margin-top: 56px;
+            min-height: 90.2vh;
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .sidebar .nav-link {
+            color: #adb5bd;
+        }
+
+        .sidebar .nav-link.active {
+            background-color: #495057;
+            color: #fff;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #5b7a99;
+            color: #fff;
+        }
+
+        .content-area {
+            margin-top: 56px;
+            padding: 2rem;
+        }
+
+        .footer {
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 0.5rem;
+            color: #acb5bd;
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                z-index: 1000;
+                width: 250px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .navbar {
+                position: fixed;
+                width: 100%;
+                z-index: 1050;
+            }
+
+            .footer {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                background-color: #343a40;
+                color: #adb5bd;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .content-area {
+                margin-left: 0;
+            }
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+        <button class="btn btn-dark d-lg-none" id="toggleSidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        <a class="navbar-brand ms-3" href="{% url 'admin_dashboard' %}">GoCart Admin</a>
+        <div class="ms-auto me-3">
+            <a href="{% url 'admin_logout' %}" class="btn btn-outline-light btn-sm">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-lg-2 sidebar py-4 px-3" id="sidebarMenu">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/admin-dashboard/' %}active{% endif %}" href="{% url 'admin_dashboard' %}">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/admin-dashboard/drivers/' %}active{% endif %}" href="{% url 'admin_driver_list' %}">
+                        <i class="fas fa-user-tie"></i> Drivers
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/admin-dashboard/students/' %}active{% endif %}" href="{% url 'admin_student_list' %}">
+                        <i class="fas fa-user-graduate"></i> Students
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/admin-dashboard/gocarts/' %}active{% endif %}" href="{% url 'admin_gocart_list' %}">
+                        <i class="fas fa-car"></i> GoCarts
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/admin-dashboard/routes/' %}active{% endif %}" href="{% url 'admin_route_list' %}">
+                        <i class="fas fa-route"></i> Routes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/admin-dashboard/stops/' %}active{% endif %}" href="{% url 'admin_stop_list' %}">
+                        <i class="fas fa-map-marker-alt"></i> Stops
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/admin-dashboard/schedules/' %}active{% endif %}" href="{% url 'admin_schedule_list' %}">
+                        <i class="fas fa-calendar-alt"></i> Schedules
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/admin-dashboard/bookings/' %}active{% endif %}" href="{% url 'admin_booking_list' %}">
+                        <i class="fas fa-ticket-alt"></i> Bookings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/admin-dashboard/contact-messages/' %}active{% endif %}" href="{% url 'admin_contact_messages' %}">
+                        <i class="fas fa-envelope"></i> Messages
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-lg-10 content-area">
+            {% block content %}
+            <!-- Page-specific content goes here -->
+            {% endblock %}
+        </main>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer bg-dark">
+    &copy; {{ now.year }} GoCart Admin Panel. All rights reserved.
+</footer>
+
+<!-- Bootstrap Bundle JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Sidebar Toggle JS -->
+<script>
+    const toggleBtn = document.getElementById('toggleSidebar');
+    const sidebar = document.getElementById('sidebarMenu');
+
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
+    });
+</script>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

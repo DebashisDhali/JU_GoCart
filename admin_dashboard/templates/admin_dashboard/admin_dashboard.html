@@ -1,0 +1,73 @@
+{% extends 'admin_dashboard/admin_base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1 class="mb-4">Admin Dashboard</h1>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">GoCarts</h5>
+                <p class="card-text fs-4">{{ gocart_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Routes</h5>
+                <p class="card-text fs-4">{{ route_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Stops</h5>
+                <p class="card-text fs-4">{{ stop_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Drivers</h5>
+                <p class="card-text fs-4">{{ driver_count }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Students</h5>
+                <p class="card-text fs-4">{{ student_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-secondary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Schedules</h5>
+                <p class="card-text fs-4">{{ schedule_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-dark mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Bookings</h5>
+                <p class="card-text fs-4">{{ booking_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-black bg-light mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Messages</h5>
+                <p class="card-text fs-4">{{ contact_message_count }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

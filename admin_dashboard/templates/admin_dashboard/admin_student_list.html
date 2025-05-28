@@ -1,0 +1,60 @@
+{% extends 'admin_dashboard/admin_base.html' %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<h2 class="mb-4">Student List</h2>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Joined</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.get_full_name }}</td>
+            <td>{{ student.username }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.phone }}</td>
+            <td>{{ student.date_joined|date:"Y-m-d" }}</td>
+            <td>
+                <a href="{% url 'admin_edit_student' student.id %}" class="btn btn-sm btn-primary">Edit</a>
+                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ student.id }}">Delete</button>
+                
+                <!-- Delete Modal -->
+                <div class="modal fade" id="deleteModal{{ student.id }}" tabindex="-1"
+                     aria-labelledby="deleteModalLabel{{ student.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-danger">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title" id="deleteModalLabel{{ student.id }}">Confirm Deletion</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete <strong>{{ student.get_full_name }}</strong>?
+                            </div>
+                            <div class="modal-footer">
+                                <form method="post" action="{% url 'admin_delete_student' student.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="text-center">No students found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
