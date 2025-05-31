@@ -1,0 +1,110 @@
+{% extends 'admin_dashboard/admin_base.html' %}
+{% block title %}Edit Booking{% endblock %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+  <div class="card p-3 shadow-sm mt-4" style="width: 100%; max-width: 500px;">
+        <h2 class="text-center my-4">Edit Booking</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <!-- Left Column -->
+                <div class="col-md-6">
+                    <!-- Student -->
+                    <div class="mb-3">
+                        <label class="form-label">Student</label>
+                        <select name="student" class="form-control" required>
+                            {% for student in students %}
+                            <option value="{{ student.id }}" {% if student.id == booking.student.id %}selected{% endif %}>
+                                {{ student.get_full_name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Schedule -->
+                    <div class="mb-3">
+                        <label class="form-label">Schedule</label>
+                        <select name="schedule" class="form-control" required>
+                            {% for sched in schedules %}
+                            <option value="{{ sched.id }}" {% if sched.id == booking.schedule.id %}selected{% endif %}>
+                                {{ sched.cart.number_plate }} | {{ sched.travel_date }} {{ sched.start_time }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- From Stop -->
+                    <div class="mb-3">
+                        <label class="form-label">From Stop</label>
+                        <select name="from_stop" class="form-control" required>
+                            {% for stop in stops %}
+                            <option value="{{ stop.id }}" {% if stop.id == booking.from_stop.id %}selected{% endif %}>
+                                {{ stop.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- To Stop -->
+                    <div class="mb-3">
+                        <label class="form-label">To Stop</label>
+                        <select name="to_stop" class="form-control" required>
+                            {% for stop in stops %}
+                            <option value="{{ stop.id }}" {% if stop.id == booking.to_stop.id %}selected{% endif %}>
+                                {{ stop.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Fare -->
+                    <div class="mb-3">
+                        <label class="form-label">Fare (৳)</label>
+                        <input type="number" name="fare" class="form-control" value="{{ booking.fare }}" required step="0.01">
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-md-6">
+                    <!-- Seats -->
+                    <div class="mb-4">
+                        <label class="form-label">Seats</label>
+                        <select name="seats" class="form-control" multiple>
+                            {% for seat in all_seats %}
+                            <option value="{{ seat.id }}" {% if seat in booking.seats.all %}selected{% endif %}>
+                                Seat {{ seat.seat_number }} | Schedule {{ seat.schedule.id }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <small class="text-muted">Hold Ctrl/Cmd to select multiple.</small>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select name="status" class="form-control" required>
+                            {% for status_option in statuses %}
+                            <option value="{{ status_option }}" {% if booking.status == status_option %}selected{% endif %}>
+                                {{ status_option|capfirst }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Payment ID -->
+                    <div class="mb-3">
+                        <label class="form-label">Payment ID</label>
+                        <input type="text" name="payment_id" class="form-control" value="{{ booking.payment_id }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Update Booking</button>
+                <a href="{% url 'admin_booking_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'admin_dashboard/admin_base.html' %}
+{% block title %}Edit Route{% endblock %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+  <div class="card p-4 shadow-sm mt-4" style="width: 100%; max-width: 500px;">
+    <h4 class="text-center mb-4">Edit Route</h4>
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Route Name</label>
+        <input type="text" name="name" class="form-control" value="{{ route.name }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Select Stops</label>
+        <select name="stops" class="form-select" multiple required>
+          {% for stop in stops %}
+            <option value="{{ stop.id }}" {% if stop in route.stops.all %}selected{% endif %}>{{ stop.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Update Route</button>
+        <a href="{% url 'admin_route_list' %}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

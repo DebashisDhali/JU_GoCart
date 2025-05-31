@@ -1,0 +1,17 @@
+{% extends 'admin_dashboard/admin_base.html' %}
+{% block title %}View Message{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Message Details</h2>
+    <hr>
+    <p><strong>Name:</strong> {{ message.name }}</p>
+    <p><strong>Email:</strong> {{ message.email }}</p>
+    <p><strong>Subject:</strong> {{ message.subject }}</p>
+    <p><strong>Message:</strong> {{ message.message }}</p>
+    <p><strong>Date:</strong> {{ message.timestamp }}</p>
+    <div class="mt-4">
+        <a href="{% url 'admin_contact_reply' message.id %}" class="btn btn-success">Reply</a>
+        <a href="{% url 'admin_contact_messages' %}" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+{% endblock %}

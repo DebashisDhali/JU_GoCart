@@ -1,0 +1,38 @@
+{% extends 'admin_dashboard/admin_base.html' %}
+{% block title %}Edit Schedule{% endblock %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="card p-4 shadow-sm mt-4" style="width: 100%; max-width: 500px;">
+        <h2 class="mb-4 text-center">Edit Schedule</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="cart" class="form-label">Select GoCart</label>
+                <select name="cart" class="form-control" required>
+                    {% for cart in gocarts %}
+                    <option value="{{ cart.id }}" {% if cart.id == schedule.cart.id %}selected{% endif %}>
+                        {{ cart.number_plate }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="travel_date" class="form-label">Travel Date</label>
+                <input type="date" class="form-control" name="travel_date" value="{{ schedule.travel_date|date:'Y-m-d' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="start_time" class="form-label">Start Time</label>
+                <input type="time" class="form-control" name="start_time" value="{{ schedule.start_time|time:'H:i' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="drop_time" class="form-label">Drop Time</label>
+                <input type="time" class="form-control" name="drop_time" value="{{ schedule.drop_time|time:'H:i' }}" required>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Update Schedule</button>
+                <a href="{% url 'admin_schedule_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

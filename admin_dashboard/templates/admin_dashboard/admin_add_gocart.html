@@ -1,0 +1,54 @@
+{% extends 'admin_dashboard/admin_base.html' %}
+{% block title %}Add GoCart{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+  <div class="card p-4 shadow-sm mt-4" style="width: 100%; max-width: 500px;">
+    <h4 class="text-center mb-4">Add New GoCart</h4>
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Number Plate</label>
+        <input type="text" name="number_plate" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Driver</label>
+        <select name="driver" class="form-select" required>
+          <option value="" disabled>Select a driver</option>
+          {% if form.fields.driver.queryset.count == 0 %}
+            <option value="" disabled>No drivers available</option>
+          {% endif %}
+          {% for driver in form.fields.driver.queryset %}
+            <option value="{{ driver.id }}">{{ driver.get_full_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Route</label>
+        <select name="route" class="form-select" required>
+          <option value="" disabled>Select a route</option>
+          {% if form.fields.route.queryset.count == 0 %}
+            <option value="" disabled>No routes available</option>
+          {% endif %}
+          {% for route in form.fields.route.queryset %}
+            <option value="{{ route.id }}">{{ route.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Capacity</label>
+        <input type="number" name="capacity" class="form-control" required>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-success">Add GoCart</button>
+        <a href="{% url 'admin_gocart_list' %}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
